@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dótir v3 · Marina</title>
+
+  <!-- Display + body fonts for both directions -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Quicksand:wght@500;600;700&family=Outfit:wght@500;700;800&family=Lexend:wght@400;500;600;700&display=swap" />
+
+  <style>
+    html, body { margin: 0; padding: 0; background: #f0eee9; font-family: ui-sans-serif, system-ui, sans-serif; }
+    #root { width: 100vw; height: 100vh; }
+    /* DesignCanvas note overlay */
+    .planning-note {
+      position: fixed; top: 14px; left: 14px; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      padding: 12px 16px; border-radius: 14px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+      font-family: 'Quicksand', system-ui, sans-serif;
+      font-weight: 600; font-size: 12px;
+      color: #4a3f35; max-width: 360px; line-height: 1.45;
+    }
+    .planning-note b { font-weight: 800; color: #2d2520; }
+    .planning-note .pill {
+      display: inline-block; padding: 1px 8px; border-radius: 99px;
+      background: #fde7c5; color: #8a6020; font-size: 10px;
+      font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+      margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <div class="planning-note">
+    <span class="pill">v3 · Marina</span>
+    <b>Dótir v3 — Marina.</b><br/>
+    iPad Air 4 landscape (1180×820 CSS px). Toca cualquier mosaico:
+    son prototipos reales con TTS, memorama jugable, y constructor de frases.
+    Pictogramas son emoji; reemplazar con ARASAAC en producción.
+  </div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" data-presets="react" src="design-canvas.jsx"></script>
+  <script type="text/babel" data-presets="react" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" data-presets="react" src="shared.jsx"></script>
+  <script type="text/babel" data-presets="react" src="cielo.jsx"></script>
+  <script type="text/babel" data-presets="react" src="marina.jsx"></script>
+  <script type="text/babel" data-presets="react" src="app.jsx"></script>
+
+  <script>
+    // Babel auto-runs transformScriptTags on DOMContentLoaded. If that already
+    // fired, the script tags will have data-babel-transform="true" or the
+    // window globals will exist. Wait, then only force-run if nothing happened.
+    (async () => {
+      while (typeof Babel === 'undefined') await new Promise(r => setTimeout(r, 20));
+      // Give the auto-init plenty of time to finish on first load
+      await new Promise(r => setTimeout(r, 1500));
+      if (typeof window.MarinaHome === 'undefined' && typeof window.__babelManualRan === 'undefined') {
+        window.__babelManualRan = true;
+        try { Babel.transformScriptTags(); } catch (e) { console.error('[babel]', e); }
+      }
+    })();
+  </script>
+</body>
+</html>
